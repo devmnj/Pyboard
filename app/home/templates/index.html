@@ -1,0 +1,725 @@
+{% extends "base_site.html" %}
+{% set stateNames=states %}
+{% set state_title=state_title %}
+
+{% block title %} {{ state_title }} {% endblock title %}
+
+{% block stylesheets %}
+    {{ super() }}
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="right_col" role="main">
+        <!-- top tiles -->
+        <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Active Cases</span>
+                <div class="count">{{ status['active'] }}</div>
+                <span class="count_bottom"><i class="green"> </i>Upto {{ today }} </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Total Confirmed Cases</span>
+                <div class="count">{{ status['confirmed'] }}</div>
+                <span class="count_bottom"><i class="green"><i
+                        class="fa fa-sort-asc"></i>
+                    {%  if status['confirmed']+status['active']>0  %}
+                        {{ "%.2f"|format((((status['confirmed'])/(status['confirmed']+status['active']))*100)) }}
+                    {% endif %}
+                </i> </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Recovered  </span>
+                <div class="count green">{{ status['recovered'] }}</div>
+                <span class="count_bottom"><i class="green"><i
+                        class="fa fa-sort-asc"></i>
+                    {%  if status['confirmed']>0  %}
+                    {{ "%.2f"|format(status['recovered']/status['confirmed']*100) }} %
+                {% endif %}
+                </i>  </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Deaths</span>
+                <div class="count">{{ status['deceased'] }}</div>
+                <span class="count_bottom"><i class="red"><i
+                        class="fa fa-sort-desc"></i>
+                    {%  if status['confirmed']>0  %}
+                    {{ "%.2f"|format(status['deceased']/status['confirmed']*100) }}
+                {% endif %}
+                </i> </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Reported Cases</span>
+                <div class="count">{{ status['active']+status['confirmed'] }}</div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>   </i>  </span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total </span>
+                <div class="count"></div>
+                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>  </i>  </span>
+            </div>
+        </div>
+        <!-- /top tiles -->
+        <div class="row">
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Today
+                            <small>Status</small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                {#                                <ul class="dropdown-menu" role="menu">#}
+                                {#                                    <li><a href="#">Settings 1</a>#}
+                                {#                                    </li>#}
+                                {#                                    <li><a href="#">Settings 2</a>#}
+                                {#                                    </li>#}
+                                {#                                </ul>#}
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content2">
+                        <div id="m_donut_formatter" style="width:100%; height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- pie chart -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>All time
+                            <small>Status</small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                {#                                <ul class="dropdown-menu" role="menu">#}
+                                {#                                    <li><a href="#">Settings 1</a>#}
+                                {#                                    </li>#}
+                                {#                                    <li><a href="#">Settings 2</a>#}
+                                {#                                    </li>#}
+                                {#                                </ul>#}
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content2">
+                        <div id="graph_donut" style="width:100%; height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Pie chart -->
+            {#      <div class="col-md-4 col-sm-4 col-xs-12">#}
+            {#        <div class="x_panel tile fixed_height_320 overflow_hidden">#}
+            {#          <div class="x_title">#}
+            {#            <h2>Device Usage</h2>#}
+            {#            <ul class="nav navbar-right panel_toolbox">#}
+            {#              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+            {#              </li>#}
+            {#              <li class="dropdown">#}
+            {#                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+            {#                <ul class="dropdown-menu" role="menu">#}
+            {#                  <li><a href="#">Settings 1</a>#}
+            {#                  </li>#}
+            {#                  <li><a href="#">Settings 2</a>#}
+            {#                  </li>#}
+            {#                </ul>#}
+            {#              </li>#}
+            {#              <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+            {#              </li>#}
+            {#            </ul>#}
+            {#            <div class="clearfix"></div>#}
+            {#          </div>#}
+            {#          <div class="x_content">#}
+            {#            <table class="" style="width:100%">#}
+            {#              <tr>#}
+            {#                <th style="width:37%;">#}
+            {#                  <p>Top 5</p>#}
+            {#                </th>#}
+            {#                <th>#}
+            {#                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">#}
+            {#                    <p class="">Device</p>#}
+            {#                  </div>#}
+            {#                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">#}
+            {#                    <p class="">Progress</p>#}
+            {#                  </div>#}
+            {#                </th>#}
+            {#              </tr>#}
+            {#              <tr>#}
+            {#                <td>#}
+            {#                  <canvas id="graph_bar" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>#}
+            {#                </td>#}
+            {#                <td>#}
+            {#                  <table class="tile_info">#}
+            {#                    <tr>#}
+            {#                      <td>#}
+            {#                        <p><i class="fa fa-square blue"></i>Active</p>#}
+            {#                      </td>#}
+            {#                      <td>30%</td>#}
+            {#                    </tr>#}
+            {#                    <tr>#}
+            {#                      <td>#}
+            {#                        <p><i class="fa fa-square green"></i>Android </p>#}
+            {#                      </td>#}
+            {#                      <td>10%</td>#}
+            {#                    </tr>#}
+            {#                    <tr>#}
+            {#                      <td>#}
+            {#                        <p><i class="fa fa-square purple"></i>Blackberry </p>#}
+            {#                      </td>#}
+            {#                      <td>20%</td>#}
+            {#                    </tr>#}
+            {#                    <tr>#}
+            {#                      <td>#}
+            {#                        <p><i class="fa fa-square aero"></i>Symbian </p>#}
+            {#                      </td>#}
+            {#                      <td>15%</td>#}
+            {#                    </tr>#}
+            {#                    <tr>#}
+            {#                      <td>#}
+            {#                        <p><i class="fa fa-square red"></i>Others </p>#}
+            {#                      </td>#}
+            {#                      <td>30%</td>#}
+            {#                    </tr>#}
+            {#                  </table>#}
+            {#                </td>#}
+            {#              </tr>#}
+            {#            </table>#}
+            {#          </div>#}
+            {#        </div>#}
+            {#      </div>#}
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+
+                    <div class="x_title">
+                        <h2>Viral flow </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    {#                                    <li><a href="#">Settings 1</a>#}
+                                    {#                                    </li>#}
+                                    {#                                    <li><a href="#">Settings 2</a>#}
+                                    {#                                    </li>#}
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    {#                  Fall rate#}
+                    <table id="table table-striped" class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>District</th>
+                            <th>Infected</th>
+                            <th>Recovered</th>
+                            <th>Rate</th>
+
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        {% for k in TopRated[:6] %}
+                            <tr>
+
+                                <td>{{ k }}</td>
+
+                                <td>{{ "%.2f"|format(data[k]['confirmed']) }}</td>
+                                <td>{{ "%.2f"|format(data[k]['recovered']) }}</td>
+                                <td>
+                                {% if data[k]['confirmed']>0 %}
+                                {{ "%.2f"|format((data[k]['recovered']/data[k]['confirmed'])*100) }}
+                                {% endif %}
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><b> </b></td>
+                            <td><b> </b></td>
+
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {#            <div class="col-md-12 col-sm-12 col-xs-12">#}
+            {#                <div class="x_panel">#}
+            {#                    <div class="x_title">#}
+            {#                        <h2>District Wise Analysis</h2>#}
+            {#                        <ul class="nav navbar-right panel_toolbox">#}
+            {#                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+            {#                            </li>#}
+            {#                            <li class="dropdown">#}
+            {#                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
+            {#                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+            {#                                <ul class="dropdown-menu" role="menu">#}
+            {#                                    <li><a href="#">Settings 1</a>#}
+            {#                                    </li>#}
+            {#                                    <li><a href="#">Settings 2</a>#}
+            {#                                    </li>#}
+            {#                                </ul>#}
+            {#                            </li>#}
+            {#                            <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+            {#                            </li>#}
+            {#                        </ul>#}
+            {#                        <div class="clearfix"></div>#}
+            {#                    </div>#}
+            {#                    <div class="x_content">#}
+            {##}
+            {#                        <div id="mainb" style="height:350px;width:1300px;"></div>#}
+            {##}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>District Wise Report
+                            <small>Users</small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                {#                                <ul class="dropdown-menu" role="menu">#}
+                                {#                                    <li><a href="#">Settings 1</a>#}
+                                {#                                    </li>#}
+                                {#                                    <li><a href="#">Settings 2</a>#}
+                                {#                                    </li>#}
+                                {#                                </ul>#}
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="text-muted font-13 m-b-30">
+                            <h4> All Statistics based on <a href="https://api.covid19india.org">Covid19India API</a>
+                            </h4>
+                            </p>
+                        </div>
+                        <table id="datatable" class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>District</th>
+                                <th>Reported Cases</th>
+                                <th>Confirmed</th>
+                                <th>Recovered</th>
+                                <th>Death</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody>
+                            {% for k,v in data.items() %}
+                                <tr>
+
+                                    <td>{{ k }}</td>
+                                    <td>{{ "%.2f"|format(v['active']) }}</td>
+                                    <td>{{ "%.2f"|format(v['confirmed']) }}</td>
+                                    <td>{{ "%.2f"|format(v['recovered']) }}</td>
+                                    <td>{{ "%.2f"|format(v['deceased']) }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td><b>Grant Total</b></td>
+                                <td>{{ "%.2f"|format(status['active'] ) }}</td>
+                                <td>{{ "%.2f"|format(status['confirmed']) }}</td>
+                                <td>{{ "%.2f"|format(status['recovered']) }}</td>
+                                <td>{{ "%.2f"|format(status['deceased'] ) }}</td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+
+        <div class="row">
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Behind the Wheel
+                            <small>how ?</small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                {#                                <ul class="dropdown-menu" role="menu">#}
+                                {#                                    <li><a href="#">Settings 1</a>#}
+                                {#                                    </li>#}
+                                {#                                    <li><a href="#">Settings 2</a>#}
+                                {#                                    </li>#}
+                                {#                                </ul>#}
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <ul class="list-unstyled timeline widget">
+                                <li>
+                                    <div class="block">
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a>The source of data</a>
+                                            </h2>
+                                            <div class="byline">
+                                                <span>13 hours ago</span> by <a>Jane Smith</a>
+                                            </div>
+                                            <p class="excerpt">All the information is gathered using the <a href="https://api.covid19india.org/">official Covid19 API</a>
+                                                I used the District, State Daily <strong>json</strong> files.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="block">
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a>Powerfull language </a>
+                                            </h2>
+
+                                            <p class="excerpt"> Python is doing all the job for you. The  website  created with Python Flask framework. The site itself
+                                                has no database nor it save any type of information.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="block">
+                                        <div class="block_content">
+                                            <h2 class="title">
+                                                <a>Can I have code ? </a>
+                                            </h2>
+
+                                            <p class="excerpt">All you need is know a little bit HTML,Java Script and Python, then clone the code from my repository. Check the link section
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 col-sm-8 col-xs-12">
+
+                <div class="row">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2> Is these information useful ?
+                                    <small>comments and suggestion</small>
+                                </h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        {#                                        <ul class="dropdown-menu" role="menu">#}
+                                        {#                                            <li><a href="#">Settings 1</a>#}
+                                        {#                                            </li>#}
+                                        {#                                            <li><a href="#">Settings 2</a>#}
+                                        {#                                            </li>#}
+                                        {#                                        </ul>#}
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://pyhat.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+
+                    <!-- Start to do list -->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Whats New ?
+                                    <small></small>
+                                </h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>
+{#                                        <ul class="dropdown-menu" role="menu">#}
+{#                                            <li><a href="#">Settings 1</a>#}
+{#                                            </li>#}
+{#                                            <li><a href="#">Settings 2</a>#}
+{#                                            </li>#}
+{#                                        </ul>#}
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <div class="">
+                                    <ul class="to_do">
+                                        <li>
+                                            <p>
+                                                <input type="checkbox" class="flat">
+                                            </p>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End to do list -->
+
+                    <!-- start of weather widget -->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+{#                        <div class="x_panel">#}
+{#                            <div class="x_title">#}
+{#                                <h2>Coming Soon#}
+{#                                    <small>Sessions</small>#}
+{#                                </h2>#}
+{#                                <ul class="nav navbar-right panel_toolbox">#}
+{#                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+{#                                    </li>#}
+{#                                    <li class="dropdown">#}
+{#                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
+{#                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+{#                                        <ul class="dropdown-menu" role="menu">#}
+{#                                            <li><a href="#">Settings 1</a>#}
+{#                                            </li>#}
+{#                                            <li><a href="#">Settings 2</a>#}
+{#                                            </li>#}
+{#                                        </ul>#}
+{#                                    </li>#}
+{#                                    <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+{#                                    </li>#}
+{#                                </ul>#}
+{#                                <div class="clearfix"></div>#}
+{#                            </div>#}
+{#                            <div class="x_content">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-sm-12">#}
+{#                                        <div class="temperature"><b>Monday</b>, 07:30 AM#}
+{#                                            <span>F</span>#}
+{#                                            <span><b>C</b></span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-sm-4">#}
+{#                                        <div class="weather-icon">#}
+{#                                            <canvas height="84" width="84" id="partly-cloudy-day"></canvas>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-8">#}
+{#                                        <div class="weather-text">#}
+{#                                            <h2>Texas <br><i>Partly Cloudy Day</i></h2>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-sm-12">#}
+{#                                    <div class="weather-text pull-right">#}
+{#                                        <h3 class="degrees">23</h3>#}
+{#                                    </div>#}
+{#                                </div>#}
+{##}
+{#                                <div class="clearfix"></div>#}
+{##}
+{#                                <div class="row weather-days">#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Mon</h2>#}
+{#                                            <h3 class="degrees">25</h3>#}
+{#                                            <canvas id="clear-day" width="32" height="32"></canvas>#}
+{#                                            <h5>15 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Tue</h2>#}
+{#                                            <h3 class="degrees">25</h3>#}
+{#                                            <canvas height="32" width="32" id="rain"></canvas>#}
+{#                                            <h5>12 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Wed</h2>#}
+{#                                            <h3 class="degrees">27</h3>#}
+{#                                            <canvas height="32" width="32" id="snow"></canvas>#}
+{#                                            <h5>14 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Thu</h2>#}
+{#                                            <h3 class="degrees">28</h3>#}
+{#                                            <canvas height="32" width="32" id="sleet"></canvas>#}
+{#                                            <h5>15 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Fri</h2>#}
+{#                                            <h3 class="degrees">28</h3>#}
+{#                                            <canvas height="32" width="32" id="wind"></canvas>#}
+{#                                            <h5>11 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-2">#}
+{#                                        <div class="daily-weather">#}
+{#                                            <h2 class="day">Sat</h2>#}
+{#                                            <h3 class="degrees">26</h3>#}
+{#                                            <canvas height="32" width="32" id="cloudy"></canvas>#}
+{#                                            <h5>10 <i>km/h</i></h5>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="clearfix"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+
+                    </div>
+                    <!-- end of weather widget -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ super() }}
+    <script type="text/javascript">
+
+        dn = {{ distabr|tojson }}
+            list1 = {{ ch_act|tojson }}
+                list2 = {{ ch_con|tojson }}
+                    list3 = {{ ch_rec|tojson }}
+                        list4 =
+        {{ ch_dec|tojson }}
+
+
+        var live_act =
+        {{ live['active'] }}
+        var live_dec =
+        {{ live['deceased'] }}
+        var live_con =
+        {{ live['confirmed'] }}
+        var live_rec =
+        {{live['recovered'] }}
+
+        var stat_act =
+        {{ status['active'] }}
+        var stat_dec =
+        {{ status['deceased'] }}
+        var stat_con =
+        {{ status['confirmed'] }}
+        var stat_rec =
+        {{ status['recovered']}}
+    </script>
+    <script id="dsq-count-scr" src="//pyhat.disqus.com/count.js" async></script>
+    <!-- ECharts -->
+    <script src="{{ url_for('static', filename='vendors/echarts/dist/echarts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/echarts/map/js/world.js') }}"></script>
+    <!-- morris.js -->
+    <script src="{{ url_for('static', filename='vendors/raphael/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/morris.js/morris.min.js') }}"></script>
+    <!-- Chart.js -->
+    <script src="{{ url_for('static', filename='vendors/Chart.js/dist/Chart.min.js') }}"></script>
+    <!-- gauge.js -->
+    <script src="{{ url_for('static', filename='vendors/gauge.js/dist/gauge.min.js') }}"></script>
+    <!-- Skycons -->
+    <script src="{{ url_for('static', filename='vendors/skycons/skycons.js') }}"></script>
+    <!-- Flot -->
+    <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/Flot/jquery.flot.resize.js') }}"></script>
+    <!-- Flot plugins -->
+    <script src="{{ url_for('static', filename='vendors/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/flot.curvedlines/curvedLines.js') }}"></script>
+    <!-- DateJS -->
+    <script src="{{ url_for('static', filename='vendors/DateJS/build/date.js') }}"></script>
+    <!-- JQVMap -->
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/jquery.vmap.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendors/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
+{% endblock javascripts %}
