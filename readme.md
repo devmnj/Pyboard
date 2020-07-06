@@ -24,7 +24,7 @@ pip install flask
 clone the repo and use it 
 
 ```
-git clone https://github.com/manojap/GenetellaReport_Pyboard.git
+git clone https://github.com/manojap/Pyboard.git
 ``` 
 I have a setting for local development which is using json file, you can Turn on/off  `'LOCAL_MODE': False` 
 in the `config.py` file.
