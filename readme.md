@@ -19,7 +19,7 @@ IDE : Jetbrain Pycahrm [Optional] <br>
 
 Install Flask
 ``` 
-pip install glask
+pip install flask
 ```
 clone the repo and use it 
 
