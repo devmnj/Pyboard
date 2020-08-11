@@ -23,16 +23,16 @@ def json_connection():
 
         data = jconnection(urldata)
         j_datax = json.loads(data)
-        j_datax2 = []
-        http = urllib3.PoolManager()
-        urldata1 = 'https://api.covid19india.org/v4/data-all.json'
-
-        data1 = jconnection(urldata1)
-        j_datax2 = json.loads(data1)
+        # j_datax2 = []
+        # http = urllib3.PoolManager()
+        # urldata1 = 'https://api.covid19india.org/v4/data-all.json'
+        #
+        # data1 = jconnection(urldata1)
+        # j_datax2 = json.loads(data1)
     except urllib3.exceptions:
         print('Error')
-    # return j_data, j_data1
-    return j_datax, j_datax2
+    # return j_data
+    return j_datax
 
 
 def crawl_USA():
@@ -43,16 +43,15 @@ def local_json():
     data = open('state_district_wise.json', 'r')
     jdata = json.loads(data.read(), encoding='utf-8')
 
-    data1 = open('data-all.json', 'r')
-    jdata1 = json.loads(data1.read(), encoding='utf-8')
-    return jdata, jdata1
+
+    return jdata
 
 
 def crawl(state='Kerala'):
     if config_dict['LOCAL_MODE'] is True:
-        j_data, j_data1 = local_json()
+        j_data = local_json()
     else:
-        j_data, j_data1 = json_connection()
+        j_data  = json_connection()
 
     state_names = list(j_data.keys())
 
@@ -67,7 +66,7 @@ def crawl(state='Kerala'):
     all_ind = {}
     for s in state_names:
         s_data1 = j_data[s]["districtData"]
-        print(s_data1)
+
         d_names1 = list(s_data1.keys())
 
         dist_filtered_data1 = {}
