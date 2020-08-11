@@ -1,8 +1,7 @@
 import json
-import operator
-from datetime import date
 
 from pip._vendor import urllib3
+
 from config import config_dict
 
 

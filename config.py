@@ -23,5 +23,5 @@ class DebugConfig(Config):
 config_dict = {
     'Production': ProductionConfig,
     'Debug': DebugConfig,
-    'LOCAL_MODE': True
+    'LOCAL_MODE': False
 }
