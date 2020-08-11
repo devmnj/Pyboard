@@ -3041,7 +3041,7 @@ function init_morris_charts() {
         Morris.Donut({
             element: 'm_donut_formatter',
             data: [
-                {value: act_today, label: 'Active', formatted: 'at least 70%'},
+                // {value: act_today, label: 'Active', formatted: 'at least 70%'},
                 {value: con_today, label: 'Confirmed', formatted: 'approx. 15%'},
                 {value: rec_today, label: 'Recovered', formatted: 'approx. 10%'},
                 {value: dec_today, label: 'Death', formatted: 'at most 5%'}
@@ -3057,7 +3057,7 @@ function init_morris_charts() {
         Morris.Donut({
             element: 'graph_donut',
             data: [
-                {label: 'Active', value: act_current},
+                // {label: 'Active', value: act_current},
                 {label: 'Confirmed', value: con_current},
                 {label: 'Recovered', value: rec_current},
                 {label: 'Death', value: dec_current}

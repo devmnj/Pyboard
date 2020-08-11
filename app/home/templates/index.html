@@ -52,11 +52,11 @@
                 <div class="count">{{ status['active']+status['confirmed'] }}</div>
                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>   </i>  </span>
             </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-user"></i> Total </span>
-                <div class="count"></div>
-                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>  </i>  </span>
-            </div>
+{#            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">#}
+{#                <span class="count_top"><i class="fa fa-user"></i> Total </span>#}
+{#                <div class="count"></div>#}
+{#                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>  </i>  </span>#}
+{#            </div>#}
         </div>
         <!-- /top tiles -->
         <div class="row">
@@ -64,7 +64,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Today
+                        <h2>All time {{ state_title}}
                             <small>Status</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
@@ -95,7 +95,7 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>All time
+                        <h2>All India
                             <small>Status</small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
@@ -676,22 +676,22 @@ s.setAttribute('data-timestamp', +new Date());
 
 
         var live_act =
-        {{ live['active'] }}
+        {{ status['active'] }}
         var live_dec =
-        {{ live['deceased'] }}
+        {{ status['deceased'] }}
         var live_con =
-        {{ live['confirmed'] }}
+        {{ status['confirmed'] }}
         var live_rec =
-        {{live['recovered'] }}
+        {{status['recovered'] }}
 
         var stat_act =
-        {{ status['active'] }}
+        {{ ind['active'] }}
         var stat_dec =
-        {{ status['deceased'] }}
+        {{ ind['deceased'] }}
         var stat_con =
-        {{ status['confirmed'] }}
+        {{ ind['confirmed'] }}
         var stat_rec =
-        {{ status['recovered']}}
+        {{ ind['recovered']}}
     </script>
     <script id="dsq-count-scr" src="//pyhat.disqus.com/count.js" async></script>
     <!-- ECharts -->

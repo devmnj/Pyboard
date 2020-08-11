@@ -1,6 +1,7 @@
 import json
 import operator
 from datetime import date
+
 from pip._vendor import urllib3
 from config import config_dict
 
@@ -23,9 +24,9 @@ def json_connection():
 
         data = jconnection(urldata)
         j_datax = json.loads(data)
-
-        # http = urllib3.PoolManager()
-        urldata1 = 'https://api.covid19india.org/districts_daily.json'
+        j_datax2 = []
+        http = urllib3.PoolManager()
+        urldata1 = 'https://api.covid19india.org/v4/data-all.json'
 
         data1 = jconnection(urldata1)
         j_datax2 = json.loads(data1)
@@ -43,7 +44,7 @@ def local_json():
     data = open('state_district_wise.json', 'r')
     jdata = json.loads(data.read(), encoding='utf-8')
 
-    data1 = open('districts_daily.json', 'r')
+    data1 = open('data-all.json', 'r')
     jdata1 = json.loads(data1.read(), encoding='utf-8')
     return jdata, jdata1
 
@@ -63,12 +64,32 @@ def crawl(state='Kerala'):
         deceased_count = data_pack[dname]["deceased"]
         return active_count, confirmed_count, recovered_count, deceased_count
 
+    # All India
+    all_ind = {}
+    for s in state_names:
+        s_data1 = j_data[s]["districtData"]
+        print(s_data1)
+        d_names1 = list(s_data1.keys())
+
+        dist_filtered_data1 = {}
+
+        ct = 0
+        at = 0
+        rt = 0
+        dt = 0
+        for d in d_names1:
+            a, c, r, d1 = filter_dist_data(s_data1, d)
+            dist_filtered_data1[d] = {"active": a, "confirmed": c, "recovered": r, "deceased": d1}
+            ct = ct + c
+            at = at + a
+            dt = dt + d1
+            rt = rt + r
+        all_ind = dict({"active": at, "confirmed": ct, "recovered": rt, "deceased": dt})
+
     def get_state_data(state):
 
         d_data = j_data[state]["districtData"]
 
-        d_data1 = {k: v for k, v in j_data[state]["districtData"].items() if k == 'Kannur'}
-        print(d_data1)
         d_names = list(d_data.keys())
 
         dist_filtered_data = {}
@@ -96,31 +117,15 @@ def crawl(state='Kerala'):
         chart_con_all = []
         chart_rec_all = []
         chart_dec_all = []
-        # print('-----')
+
         for x in d_names:
             chart_act_all.append(all_sorted[x]['active'])
             chart_con_all.append(all_sorted[x]['confirmed'])
             chart_rec_all.append(all_sorted[x]['recovered'])
             chart_dec_all.append(all_sorted[x]['deceased'])
 
-        tdy_source = {k: v1 for (k, v) in j_data1['districtsDaily'][state].items() for v1 in v for (k2, v2) in
-                      v1.items()
-                      if v2 == str(date.today())}
+        return d_names, dist_filtered_data, status, chart_act_all, chart_con_all, chart_rec_all, chart_dec_all, abbre, high_fall_infect
 
-        tdy = {}
-        tdy_active = list({int(v1) for (k, v) in tdy_source.items() for (k1, v1) in v.items() if k1 == "active"})
-        tdy_confirmed = list({int(v1) for (k, v) in tdy_source.items() for (k1, v1) in v.items() if k1 == "confirmed"})
-        tdy_recovered = list({int(v1) for (k, v) in tdy_source.items() for (k1, v1) in v.items() if k1 == "recovered"})
-        tdy_deceased = list({int(v1) for (k, v) in tdy_source.items() for (k1, v1) in v.items() if k1 == "deceased"})
-        if len(tdy_active) > 0:
-            tdy["active"] = (tdy_active[len(tdy_active) - 1])
-            # print(tdy_active)
-            tdy["recovered"] = tdy_recovered[len(tdy_recovered) - 1]
-            tdy["confirmed"] = tdy_confirmed[len(tdy_confirmed) - 1]
-            tdy["deceased"] = tdy_deceased[len(tdy_deceased) - 1]
+    districts, data, stat, act, con, rec, death, abr, high_fall_infect = get_state_data(state)
 
-        return d_names, dist_filtered_data, status, tdy, chart_act_all, chart_con_all, chart_rec_all, chart_dec_all, abbre, high_fall_infect
-
-    districts, data, stat, live, act, con, rec, death, abr, high_fall_infect = get_state_data(state)
-
-    return districts, data, stat, live, act, con, rec, death, abr, high_fall_infect, state_names
+    return districts, data, stat, act, con, rec, death, abr, high_fall_infect, state_names, all_ind
