@@ -2,7 +2,6 @@ from os import environ
 
 
 class Config(object):
-
     DEFAULT_THEME = None
 
 
@@ -13,7 +12,6 @@ class ProductionConfig(Config):
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 10
-
 
 
 class DebugConfig(Config):

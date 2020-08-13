@@ -1,5 +1,5 @@
 import json
-from datetime import date,timedelta
+from datetime import date, timedelta
 
 from pip._vendor import urllib3
 
@@ -27,10 +27,12 @@ def json_connection():
         j_datax2 = []
         http = urllib3.PoolManager()
         urldata1 = 'https://api.covid19india.org/v4/timeseries.json'
-
         data1 = jconnection(urldata1)
         j_datax2 = json.loads(data1)
-        t_data = []
+
+        data3 = jconnection('https://api.covid19india.org/state_test_data.json')
+        t_data = json.loads(data3)
+
     except urllib3.exceptions:
         print('Error')
     # return j_data
@@ -56,13 +58,11 @@ def crawl(state='Kerala'):
     else:
         j_data, t_data, test_data = json_connection()
     today = date.today()
-    t=test_data['states_tested_data']
-    yday=today-timedelta(days=1)
+    t = test_data['states_tested_data']
+    yday = today - timedelta(days=1)
     print(yday)
-    t_y_day=[k  for k in t if k['state'] == state and k['updatedon']== yday.strftime('%d/%m/%Y') ]
-    test_results=[k  for k in t if k['state'] == state and k['updatedon']== today.strftime('%d/%m/%Y') ]
-
-
+    t_y_day = [k for k in t if k['state'] == state and k['updatedon'] == yday.strftime('%d/%m/%Y')]
+    test_results = [k for k in t if k['state'] == state and k['updatedon'] == today.strftime('%d/%m/%Y')]
 
     state_names = list(j_data.keys())
     # print(state_names)
@@ -169,4 +169,4 @@ def crawl(state='Kerala'):
 
     districts, data, stat, act, con, rec, death, abr, high_fall_infect = get_state_data(state)
 
-    return districts, data, stat, act, con, rec, death, abr, high_fall_infect, state_names, all_ind, td_,test_results
+    return districts, data, stat, act, con, rec, death, abr, high_fall_infect, state_names, all_ind, td_, test_results
