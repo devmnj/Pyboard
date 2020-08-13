@@ -11,11 +11,12 @@ def index():
 
     datestr = today.strftime("%a %d %B %Y")
 
-    a, b, c,  ch_act, ch_con, ch_rec, ch_dec, abb, high_fall_infect, states,ind = india_c19_dataAll.crawl('Kerala')
+    a, b, c, ch_act, ch_con, ch_rec, ch_dec, abb, high_fall_infect, states, ind, live, tests = india_c19_dataAll.crawl(
+        'Kerala')
 
-    return render_template('index.html', status=c, districts=a, data=b, today=datestr,  ch_act=ch_act,
+    return render_template('index.html', status=c, districts=a, data=b, today=datestr, ch_act=ch_act,
                            ch_con=ch_con, ch_rec=ch_rec, ch_dec=ch_dec, distabr=abb, TopRated=high_fall_infect,
-                           states=states, state_title='Kerala',ind=ind)
+                           states=states, state_title='Kerala', ind=ind, live=live, tests=tests)
 
 
 @blueprint.route('/<sname>')
@@ -24,11 +25,12 @@ def state(sname):
 
     datestr = today.strftime("%a %d %B %Y")
 
-    a, b, c,   ch_act, ch_con, ch_rec, ch_dec, abb, high_fall_infect, states,ind = india_c19_dataAll.crawl(sname)
+    a, b, c, ch_act, ch_con, ch_rec, ch_dec, abb, high_fall_infect, states, ind, live, tests = india_c19_dataAll.crawl(
+        sname)
 
-    return render_template('index.html', status=c, districts=a, data=b, today=datestr,  ch_act=ch_act,
+    return render_template('index.html', status=c, districts=a, data=b, today=datestr, ch_act=ch_act,
                            ch_con=ch_con, ch_rec=ch_rec, ch_dec=ch_dec, distabr=abb, TopRated=high_fall_infect,
-                           states=states, state_title=sname,ind=ind)
+                           states=states, state_title=sname, ind=ind, live=live, tests=tests)
 
 
 @blueprint.route('/<template>')

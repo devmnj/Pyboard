@@ -1,4 +1,5 @@
 import json
+from datetime import date,timedelta
 
 from pip._vendor import urllib3
 
@@ -23,16 +24,17 @@ def json_connection():
 
         data = jconnection(urldata)
         j_datax = json.loads(data)
-        # j_datax2 = []
-        # http = urllib3.PoolManager()
-        # urldata1 = 'https://api.covid19india.org/v4/data-all.json'
-        #
-        # data1 = jconnection(urldata1)
-        # j_datax2 = json.loads(data1)
+        j_datax2 = []
+        http = urllib3.PoolManager()
+        urldata1 = 'https://api.covid19india.org/v4/timeseries.json'
+
+        data1 = jconnection(urldata1)
+        j_datax2 = json.loads(data1)
+        t_data = []
     except urllib3.exceptions:
         print('Error')
     # return j_data
-    return j_datax
+    return j_datax, j_datax2, t_data
 
 
 def crawl_USA():
@@ -42,18 +44,59 @@ def crawl_USA():
 def local_json():
     data = open('state_district_wise.json', 'r')
     jdata = json.loads(data.read(), encoding='utf-8')
+    t_series_data = json.loads(open('timeseries.json', 'r').read())
+    test_data = json.loads(open('state_test_data.json', 'r').read())
 
-
-    return jdata
+    return jdata, t_series_data, test_data
 
 
 def crawl(state='Kerala'):
     if config_dict['LOCAL_MODE'] is True:
-        j_data = local_json()
+        j_data, t_data, test_data = local_json()
     else:
-        j_data  = json_connection()
+        j_data, t_data, test_data = json_connection()
+    today = date.today()
+    t=test_data['states_tested_data']
+    yday=today-timedelta(days=1)
+    print(yday)
+    t_y_day=[k  for k in t if k['state'] == state and k['updatedon']== yday.strftime('%d/%m/%Y') ]
+    test_results=[k  for k in t if k['state'] == state and k['updatedon']== today.strftime('%d/%m/%Y') ]
+
+
 
     state_names = list(j_data.keys())
+    # print(state_names)
+
+    state_dict = {'Andaman and Nicobar Islands': 'AN', 'Andhra Pradesh': 'AP',
+                  'Arunachal Pradesh': 'AR', 'Assam': 'AS', 'Bihar': 'BR', 'Chandigarh': 'CH', 'Chhattisgarh': 'CT',
+                  'Delhi': 'DL', 'Dadra and Nagar Haveli and Daman and Diu': 'DN', 'Goa': 'GA', 'Gujarat': 'GJ',
+                  'Himachal Pradesh': 'HP', 'Haryana': 'HT', 'Jharkhand': 'JH', 'Jammu and Kashmir': 'JK',
+                  'Karnataka': 'KA',
+                  'Kerala': 'KL', 'Ladakh': 'LA', 'Lakshadweep': '', 'Maharashtra': 'MH', 'Meghalaya': 'ML',
+                  'Manipur': 'MN',
+                  'Madhya Pradesh': 'MP', 'Mizoram': 'MZ', 'Nagaland': 'NL', 'Odisha': 'OR', 'Punjab': 'PB',
+                  'Puducherry': 'PY',
+                  'Rajasthan': 'RJ', 'Sikkim': 'SK', 'Telangana': 'TG', 'Tamil Nadu': 'TN', 'Tripura': 'TR',
+                  'Uttar Pradesh': 'UP',
+                  'Uttarakhand': 'UT', 'West Bengal': 'WB'}
+
+    tdy = []
+    td_ = {}
+    td_['confirmed'] = 0
+    td_['dead'] = 0
+    td_['recovered'] = 0
+
+    # daily statistics
+    try:
+        tdy = t_data[state_dict[state]]['dates'][str(today)]['delta']
+        td_['confirmed'] = tdy['confirmed']
+        td_['dead'] = tdy['deceased']
+        td_['recovered'] = tdy['recovered']
+    except:
+        pass
+
+    # print(state)
+    # print(tdy )
 
     def filter_dist_data(data_pack, dname):
         active_count = data_pack[dname]["active"]
@@ -126,4 +169,4 @@ def crawl(state='Kerala'):
 
     districts, data, stat, act, con, rec, death, abr, high_fall_infect = get_state_data(state)
 
-    return districts, data, stat, act, con, rec, death, abr, high_fall_infect, state_names, all_ind
+    return districts, data, stat, act, con, rec, death, abr, high_fall_infect, state_names, all_ind, td_,test_results

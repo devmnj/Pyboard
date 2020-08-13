@@ -64,8 +64,8 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>All time {{ state_title}}
-                            <small>Status</small>
+                        <h2>Today in {{ state_title}}
+                            <small>     </small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -301,7 +301,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>District Wise Report
-                            <small>Users</small>
+                            <small> </small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -678,11 +678,11 @@ s.setAttribute('data-timestamp', +new Date());
         var live_act =
         {{ status['active'] }}
         var live_dec =
-        {{ status['deceased'] }}
+        {{live['dead'] }}
         var live_con =
-        {{ status['confirmed'] }}
+        {{ live['confirmed'] }}
         var live_rec =
-        {{status['recovered'] }}
+        {{live['recovered'] }}
 
         var stat_act =
         {{ ind['active'] }}
