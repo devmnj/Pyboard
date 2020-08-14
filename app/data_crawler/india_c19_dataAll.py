@@ -1,6 +1,7 @@
 import json
 from datetime import date, timedelta
 from turtle import goto
+from pip._vendor import urllib3
 
 from pip._vendor import urllib3
 from config import config_dict
