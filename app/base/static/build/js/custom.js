@@ -2886,17 +2886,21 @@ function init_DataTables() {
 /* CHART - MORRIS  */
 
 function init_morris_charts() {
-    var act_today = live_act;
+
     var dec_today = live_dec;
     var con_today = live_con;
     var rec_today = live_rec;
 
-    var act_current1 = stat_act;
-    var con_current1 = stat_con;
-    var rec_current1 = stat_rec;
-    var dec_current1 = stat_dec;
+    var test_pos = tests_pos;
+    var test_neg = tests_neg;
+    var test_unc = tests_un;
+    var test_qua = tests_qua;
 
-    var act_current = stat_act;
+    var test_all_pos = tests_all_pos;
+    var test_all_neg = tests_all_neg;
+    var test_all_unc = tests_all_un;
+    var test_all_qua = tests_all_qua;
+
     var con_current = stat_con;
     var rec_current = stat_rec;
     var dec_current = stat_dec;
@@ -3035,6 +3039,59 @@ function init_morris_charts() {
             resize: true
         });
 
+    }
+     if ($('#test_ind_donut').length) {
+
+        Morris.Donut({
+          element: 'test_ind_donut',
+          data: [
+            {value: test_all_pos, label: 'Positive'},
+            {value: test_all_neg, label: 'Ngative'},
+            {value: test_all_unc, label: 'Unconfirmed'},
+            {value: test_all_qua, label: 'Quarantine'}
+          ],
+          formatter: function (x) { return x + ""}
+        }).on('click', function(i, row){
+          console.log(i, row);
+        });
+     }
+
+    if ($('#tests_color_donut').length) {
+        Morris.Donut({
+            element: 'tests_color_donut',
+            data: [
+                {value: test_pos, label: 'Positive'},
+                {value: test_neg, label: 'Negative'},
+                {value: test_qua, label: 'Quarantine'},
+                {value: test_unc, label: 'Unconfirmed'}
+            ],
+            backgroundColor: '#ccc',
+            labelColor: '#060',
+            colors: [
+                '#0BA462',
+                '#39B580',
+                '#67C69D',
+                '#95D7BB'
+            ],
+            formatter: function (x) {
+                return x + " nos "
+            }
+        });
+    }
+
+    if ($('#m_donut_tests_').length) {
+        Morris.Donut({
+            element: 'm_donut_tests_',
+            data: [
+                // {value: act_today, label: 'Active', formatted: 'at least 70%'},
+                {value: test_pos, label: 'Positive', formatted: 'approx. 15%'},
+                {value: test_neg, label: 'Negative', formatted: 'approx. 10%'},
+                {value: test_unc, label: 'Unconfirmed', formatted: 'at most 5%'}
+            ],
+            formatter: function (x, data) {
+                return data.value;
+            }
+        });
     }
 
     if ($('#m_donut_formatter').length) {

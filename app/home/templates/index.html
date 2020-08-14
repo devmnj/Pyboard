@@ -22,7 +22,7 @@
                 <div class="count">{{ status['confirmed'] }}</div>
                 <span class="count_bottom"><i class="green"><i
                         class="fa fa-sort-asc"></i>
-                    {%  if status['confirmed']+status['active']>0  %}
+                    {% if status['confirmed']+status['active']>0 %}
                         {{ "%.2f"|format((((status['confirmed'])/(status['confirmed']+status['active']))*100)) }}
                     {% endif %}
                 </i> </span>
@@ -32,9 +32,9 @@
                 <div class="count green">{{ status['recovered'] }}</div>
                 <span class="count_bottom"><i class="green"><i
                         class="fa fa-sort-asc"></i>
-                    {%  if status['confirmed']>0  %}
-                    {{ "%.2f"|format(status['recovered']/status['confirmed']*100) }} %
-                {% endif %}
+                    {% if status['confirmed']>0 %}
+                        {{ "%.2f"|format(status['recovered']/status['confirmed']*100) }} %
+                    {% endif %}
                 </i>  </span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -42,9 +42,9 @@
                 <div class="count">{{ status['deceased'] }}</div>
                 <span class="count_bottom"><i class="red"><i
                         class="fa fa-sort-desc"></i>
-                    {%  if status['confirmed']>0  %}
-                    {{ "%.2f"|format(status['deceased']/status['confirmed']*100) }}
-                {% endif %}
+                    {% if status['confirmed']>0 %}
+                        {{ "%.2f"|format(status['deceased']/status['confirmed']*100) }}
+                    {% endif %}
                 </i> </span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -52,11 +52,11 @@
                 <div class="count">{{ status['active']+status['confirmed'] }}</div>
                 <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>   </i>  </span>
             </div>
-{#            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">#}
-{#                <span class="count_top"><i class="fa fa-user"></i> Total </span>#}
-{#                <div class="count"></div>#}
-{#                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>  </i>  </span>#}
-{#            </div>#}
+            {#            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">#}
+            {#                <span class="count_top"><i class="fa fa-user"></i> Total </span>#}
+            {#                <div class="count"></div>#}
+            {#                <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>  </i>  </span>#}
+            {#            </div>#}
         </div>
         <!-- /top tiles -->
         <div class="row">
@@ -64,8 +64,8 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Today in {{ state_title}}
-                            <small>     </small>
+                        <h2>Live Update
+                            <small> </small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -247,9 +247,9 @@
                                 <td>{{ "%.2f"|format(data[k]['confirmed']) }}</td>
                                 <td>{{ "%.2f"|format(data[k]['recovered']) }}</td>
                                 <td>
-                                {% if data[k]['confirmed']>0 %}
-                                {{ "%.2f"|format((data[k]['recovered']/data[k]['confirmed'])*100) }}
-                                {% endif %}
+                                    {% if data[k]['confirmed']>0 %}
+                                        {{ "%.2f"|format((data[k]['recovered']/data[k]['confirmed'])*100) }}
+                                    {% endif %}
                                 </td>
 
                             </tr>
@@ -267,6 +267,347 @@
                 </div>
             </div>
         </div>
+        <div class="row" .>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Test
+                            <small> Results </small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content2">
+                        <div id="tests_color_donut" style="width:100%; height:300px;"></div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- pie chart -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>All India
+                            <small>Status</small>
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                {#                                <ul class="dropdown-menu" role="menu">#}
+                                {#                                    <li><a href="#">Settings 1</a>#}
+                                {#                                    </li>#}
+                                {#                                    <li><a href="#">Settings 2</a>#}
+                                {#                                    </li>#}
+                                {#                                </ul>#}
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content2">
+                        <div id="test_ind_donut" style="width:100%; height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Pie chart -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="x_panel">
+
+                    <div class="x_title">
+                        <h2>Test statistics</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    {#                                    <li><a href="#">Settings 1</a>#}
+                                    {#                                    </li>#}
+                                    {#                                    <li><a href="#">Settings 2</a>#}
+                                    {#                                    </li>#}
+                                </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    {#                  Fall rate#}
+                    <table id="table table-striped" class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{ state_title }}</th>
+                            <th>All States</th>
+
+
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        <tr>
+
+
+                            <td><strong> Tests</strong></td>
+                            <td>{{ "%.2f"|format(tests['total_tested']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['total_tested']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+
+
+                            <td><strong> Positive</strong></td>
+                            <td>{{ "%.2f"|format(tests['positive']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['positive']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+
+                            <td><strong> Negative</strong></td>
+                            <td>{{ "%.2f"|format(tests['negative']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['negative']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+
+
+                            <td><strong> Quaratine count</strong></td>
+                            <td>{{ "%.2f"|format(tests['currently_in_quarantine']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['currently_in_quarantine']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+
+
+                            <td><strong> Unconfirmed</strong></td>
+                            <td>{{ "%.2f"|format(tests['unconfirmed']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['unconfirmed']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+
+                            <td><strong> Released from Q.tine</strong></td>
+                            <td>{{ "%.2f"|format(tests['released_from_quarantine']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['released_from_quarantine']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+
+
+                            <td><strong> Test Per Positive Cases</strong></td>
+                            <td>{{ "%.2f"|format(tests['tests_per_positive_case']) }}</td>
+                            <td>{{ "%.2f"|format(tests_all['tests_per_positive_case']) }}</td>
+                            <td>
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><b> </b></td>
+                            <td><b> </b></td>
+
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+        {#            <!-- /Pie chart -->#}
+        {#      <div class="col-md-4 col-sm-4 col-xs-12">#}
+        {#        <div class="x_panel tile fixed_height_320 overflow_hidden">#}
+        {#          <div class="x_title">#}
+        {#            <h2>Device Usage</h2>#}
+        {#            <ul class="nav navbar-right panel_toolbox">#}
+        {#              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+        {#              </li>#}
+        {#              <li class="dropdown">#}
+        {#                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+        {#                <ul class="dropdown-menu" role="menu">#}
+        {#                  <li><a href="#">Settings 1</a>#}
+        {#                  </li>#}
+        {#                  <li><a href="#">Settings 2</a>#}
+        {#                  </li>#}
+        {#                </ul>#}
+        {#              </li>#}
+        {#              <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+        {#              </li>#}
+        {#            </ul>#}
+        {#            <div class="clearfix"></div>#}
+        {#          </div>#}
+        {#          <div class="x_content">#}
+        {#            <table class="" style="width:100%">#}
+        {#              <tr>#}
+        {#                <th style="width:37%;">#}
+        {#                  <p>Top 5</p>#}
+        {#                </th>#}
+        {#                <th>#}
+        {#                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">#}
+        {#                    <p class="">Device</p>#}
+        {#                  </div>#}
+        {#                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">#}
+        {#                    <p class="">Progress</p>#}
+        {#                  </div>#}
+        {#                </th>#}
+        {#              </tr>#}
+        {#              <tr>#}
+        {#                <td>#}
+        {#                  <canvas id="graph_bar" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>#}
+        {#                </td>#}
+        {#                <td>#}
+        {#                  <table class="tile_info">#}
+        {#                    <tr>#}
+        {#                      <td>#}
+        {#                        <p><i class="fa fa-square blue"></i>Active</p>#}
+        {#                      </td>#}
+        {#                      <td>30%</td>#}
+        {#                    </tr>#}
+        {#                    <tr>#}
+        {#                      <td>#}
+        {#                        <p><i class="fa fa-square green"></i>Android </p>#}
+        {#                      </td>#}
+        {#                      <td>10%</td>#}
+        {#                    </tr>#}
+        {#                    <tr>#}
+        {#                      <td>#}
+        {#                        <p><i class="fa fa-square purple"></i>Blackberry </p>#}
+        {#                      </td>#}
+        {#                      <td>20%</td>#}
+        {#                    </tr>#}
+        {#                    <tr>#}
+        {#                      <td>#}
+        {#                        <p><i class="fa fa-square aero"></i>Symbian </p>#}
+        {#                      </td>#}
+        {#                      <td>15%</td>#}
+        {#                    </tr>#}
+        {#                    <tr>#}
+        {#                      <td>#}
+        {#                        <p><i class="fa fa-square red"></i>Others </p>#}
+        {#                      </td>#}
+        {#                      <td>30%</td>#}
+        {#                    </tr>#}
+        {#                  </table>#}
+        {#                </td>#}
+        {#              </tr>#}
+        {#            </table>#}
+        {#          </div>#}
+        {#        </div>#}
+        {#      </div>#}
+        {##}
+        {#            <div class="col-md-4 col-sm-4 col-xs-12">#}
+        {#                <div class="x_panel">#}
+        {##}
+        {#                    <div class="x_title">#}
+        {#                        <h2>Viral flow </h2>#}
+        {#                        <ul class="nav navbar-right panel_toolbox">#}
+        {#                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
+        {#                            </li>#}
+        {#                            <li class="dropdown">#}
+        {#                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
+        {#                                   aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
+        {#                                <ul class="dropdown-menu" role="menu">#}
+        {#                                    <li><a href="#">Settings 1</a>#}
+        {#                                    </li>#}
+        {#                                    <li><a href="#">Settings 2</a>#}
+        {#                                    </li>#}
+        {#                                </ul>#}
+        {#                            </li>#}
+        {#                            <li><a class="close-link"><i class="fa fa-close"></i></a>#}
+        {#                            </li>#}
+        {#                        </ul>#}
+        {#                        <div class="clearfix"></div>#}
+        {#                    </div>#}
+        {#                  Fall rate#}
+        {#                    <table id="table table-striped" class="table table-striped table-bordered">#}
+        {#                        <thead>#}
+        {#                        <tr>#}
+        {#                            <th>District</th>#}
+        {#                            <th>Infected</th>#}
+        {#                            <th>Recovered</th>#}
+        {#                            <th>Rate</th>#}
+        {##}
+        {#                        </tr>#}
+        {#                        </thead>#}
+        {##}
+        {##}
+        {#                        <tbody>#}
+        {#                        {% for k in TopRated[:6] %}#}
+        {#                            <tr>#}
+        {##}
+        {#                                <td>{{ k }}</td>#}
+        {##}
+        {#                                <td>{{ "%.2f"|format(data[k]['confirmed']) }}</td>#}
+        {#                                <td>{{ "%.2f"|format(data[k]['recovered']) }}</td>#}
+        {#                                <td>#}
+        {#                                {% if data[k]['confirmed']>0 %}#}
+        {#                                {{ "%.2f"|format((data[k]['recovered']/data[k]['confirmed'])*100) }}#}
+        {#                                {% endif %}#}
+        {#                                </td>#}
+        {##}
+        {#                            </tr>#}
+        {#                        {% endfor %}#}
+        {#                        <tr>#}
+        {#                            <td><b> </b></td>#}
+        {#                            <td><b> </b></td>#}
+        {##}
+        {##}
+        {#                        </tr>#}
+        {##}
+        {#                        </tbody>#}
+        {#                    </table>#}
+        {##}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
         <div class="row">
             {#            <div class="col-md-12 col-sm-12 col-xs-12">#}
             {#                <div class="x_panel">#}
@@ -407,7 +748,8 @@
                                             <div class="byline">
                                                 <span>13 hours ago</span> by <a>Jane Smith</a>
                                             </div>
-                                            <p class="excerpt">All the information is gathered using the <a href="https://api.covid19india.org/">official Covid19 API</a>
+                                            <p class="excerpt">All the information is gathered using the <a
+                                                    href="https://api.covid19india.org/">official Covid19 API</a>
                                                 I used the District, State Daily <strong>json</strong> files.
                                             </p>
                                         </div>
@@ -420,7 +762,8 @@
                                                 <a>Powerfull language </a>
                                             </h2>
 
-                                            <p class="excerpt"> Python is doing all the job for you. The  website  created with Python Flask framework. The site itself
+                                            <p class="excerpt"> Python is doing all the job for you. The website created
+                                                with Python Flask framework. The site itself
                                                 has no database nor it save any type of information.
                                             </p>
                                         </div>
@@ -433,7 +776,8 @@
                                                 <a>Can I have code ? </a>
                                             </h2>
 
-                                            <p class="excerpt">All you need is know a little bit HTML,Java Script and Python, then clone the code from my repository. Check the link section
+                                            <p class="excerpt">All you need is know a little bit HTML,Java Script and
+                                                Python, then clone the code from my repository. Check the link section
 
                                             </p>
                                         </div>
@@ -476,26 +820,27 @@
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
-                        <div id="disqus_thread"></div>
-<script>
+                            <div id="disqus_thread"></div>
+                            <script>
 
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://pyhat.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                /**
+                                 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                                 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                                /*
+                                var disqus_config = function () {
+                                this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                                };
+                                */
+                                (function () { // DON'T EDIT BELOW THIS LINE
+                                    var d = document, s = d.createElement('script');
+                                    s.src = 'https://pyhat.disqus.com/embed.js';
+                                    s.setAttribute('data-timestamp', +new Date());
+                                    (d.head || d.body).appendChild(s);
+                                })();
+                            </script>
+                            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments
+                                powered by Disqus.</a></noscript>
 
                         </div>
                     </div>
@@ -517,12 +862,12 @@ s.setAttribute('data-timestamp', +new Date());
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                            aria-expanded="false"><i class="fa fa-wrench"></i></a>
-{#                                        <ul class="dropdown-menu" role="menu">#}
-{#                                            <li><a href="#">Settings 1</a>#}
-{#                                            </li>#}
-{#                                            <li><a href="#">Settings 2</a>#}
-{#                                            </li>#}
-{#                                        </ul>#}
+                                        {#                                        <ul class="dropdown-menu" role="menu">#}
+                                        {#                                            <li><a href="#">Settings 1</a>#}
+                                        {#                                            </li>#}
+                                        {#                                            <li><a href="#">Settings 2</a>#}
+                                        {#                                            </li>#}
+                                        {#                                        </ul>#}
                                     </li>
                                     <li><a class="close-link"><i class="fa fa-close"></i></a>
                                     </li>
@@ -548,111 +893,6 @@ s.setAttribute('data-timestamp', +new Date());
 
                     <!-- start of weather widget -->
                     <div class="col-md-6 col-sm-6 col-xs-12">
-{#                        <div class="x_panel">#}
-{#                            <div class="x_title">#}
-{#                                <h2>Coming Soon#}
-{#                                    <small>Sessions</small>#}
-{#                                </h2>#}
-{#                                <ul class="nav navbar-right panel_toolbox">#}
-{#                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>#}
-{#                                    </li>#}
-{#                                    <li class="dropdown">#}
-{#                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"#}
-{#                                           aria-expanded="false"><i class="fa fa-wrench"></i></a>#}
-{#                                        <ul class="dropdown-menu" role="menu">#}
-{#                                            <li><a href="#">Settings 1</a>#}
-{#                                            </li>#}
-{#                                            <li><a href="#">Settings 2</a>#}
-{#                                            </li>#}
-{#                                        </ul>#}
-{#                                    </li>#}
-{#                                    <li><a class="close-link"><i class="fa fa-close"></i></a>#}
-{#                                    </li>#}
-{#                                </ul>#}
-{#                                <div class="clearfix"></div>#}
-{#                            </div>#}
-{#                            <div class="x_content">#}
-{#                                <div class="row">#}
-{#                                    <div class="col-sm-12">#}
-{#                                        <div class="temperature"><b>Monday</b>, 07:30 AM#}
-{#                                            <span>F</span>#}
-{#                                            <span><b>C</b></span>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="row">#}
-{#                                    <div class="col-sm-4">#}
-{#                                        <div class="weather-icon">#}
-{#                                            <canvas height="84" width="84" id="partly-cloudy-day"></canvas>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-8">#}
-{#                                        <div class="weather-text">#}
-{#                                            <h2>Texas <br><i>Partly Cloudy Day</i></h2>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-sm-12">#}
-{#                                    <div class="weather-text pull-right">#}
-{#                                        <h3 class="degrees">23</h3>#}
-{#                                    </div>#}
-{#                                </div>#}
-{##}
-{#                                <div class="clearfix"></div>#}
-{##}
-{#                                <div class="row weather-days">#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Mon</h2>#}
-{#                                            <h3 class="degrees">25</h3>#}
-{#                                            <canvas id="clear-day" width="32" height="32"></canvas>#}
-{#                                            <h5>15 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Tue</h2>#}
-{#                                            <h3 class="degrees">25</h3>#}
-{#                                            <canvas height="32" width="32" id="rain"></canvas>#}
-{#                                            <h5>12 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Wed</h2>#}
-{#                                            <h3 class="degrees">27</h3>#}
-{#                                            <canvas height="32" width="32" id="snow"></canvas>#}
-{#                                            <h5>14 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Thu</h2>#}
-{#                                            <h3 class="degrees">28</h3>#}
-{#                                            <canvas height="32" width="32" id="sleet"></canvas>#}
-{#                                            <h5>15 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Fri</h2>#}
-{#                                            <h3 class="degrees">28</h3>#}
-{#                                            <canvas height="32" width="32" id="wind"></canvas>#}
-{#                                            <h5>11 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-sm-2">#}
-{#                                        <div class="daily-weather">#}
-{#                                            <h2 class="day">Sat</h2>#}
-{#                                            <h3 class="degrees">26</h3>#}
-{#                                            <canvas height="32" width="32" id="cloudy"></canvas>#}
-{#                                            <h5>10 <i>km/h</i></h5>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="clearfix"></div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
 
                     </div>
                     <!-- end of weather widget -->
@@ -674,15 +914,40 @@ s.setAttribute('data-timestamp', +new Date());
                         list4 =
         {{ ch_dec|tojson }}
 
+        var tests_pos =
+        {{ tests['positive'] }}
+        var tests_neg =
+        {{ tests['negative'] }}
+        var tests_un =
+        {{ tests['unconfirmed'] }}
+        var tests_qua =
+        {{ tests['currently_in_quarantine'] }}
+        var tests_total_tested =
+        {{ tests['total_tested'] }}
+
+
+        var tests_all_pos =
+        {{ tests_all['positive'] }}
+        var tests_all_neg =
+        {{ tests_all['negative'] }}
+        var tests_all_un =
+        {{ tests_all['unconfirmed'] }}
+        var tests_all_qua =
+        {{ tests_all['currently_in_quarantine'] }}
+        var tests_all_total_tested =
+        {{ tests_all['total_tested'] }}
 
         var live_act =
-        {{ status['active'] }}
+            0
         var live_dec =
-        {{live['dead'] }}
+        {{ live['dead'] }}
+
         var live_con =
         {{ live['confirmed'] }}
+
         var live_rec =
-        {{live['recovered'] }}
+        {{ live['recovered'] }}
+
 
         var stat_act =
         {{ ind['active'] }}

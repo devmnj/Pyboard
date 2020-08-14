@@ -1,6 +1,3 @@
-from os import environ
-
-
 class Config(object):
     DEFAULT_THEME = None
 
