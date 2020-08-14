@@ -3046,7 +3046,7 @@ function init_morris_charts() {
           element: 'test_ind_donut',
           data: [
             {value: test_all_pos, label: 'Positive'},
-            {value: test_all_neg, label: 'Ngative'},
+            {value: test_all_neg, label: 'Negative'},
             {value: test_all_unc, label: 'Unconfirmed'},
             {value: test_all_qua, label: 'Quarantine'}
           ],

@@ -1,5 +1,7 @@
 import json
 from datetime import date, timedelta
+from turtle import goto
+
 from pip._vendor import urllib3
 from config import config_dict
 
@@ -86,6 +88,24 @@ def all_india(j_data=None, state_names=[]):
     return all_
 
 
+def test_locator(data,state, def_date):
+    dt = def_date
+    tst_ = []
+    try:
+        tst_ = [k for k in data if k['state'] == state and k['updatedon'] == dt.strftime('%d/%m/%Y')]
+        if tst_.__len__() <= 0:
+            dt = def_date - timedelta(days=1);
+            return test_locator(data, state, dt)
+
+        else:
+            return tst_
+
+
+
+    except:
+        pass
+
+
 def get_tests(test_data, state_names, state):
     today = date.today()
     y_day = today - timedelta(days=1)
@@ -104,25 +124,27 @@ def get_tests(test_data, state_names, state):
     r_q = 0
     t_per_pos = 0
     for name in state_names:
+
         tst_ = [k for k in t if k['state'] == name and k['updatedon'] == y_day.strftime('%d/%m/%Y')]
-        if tst_.__len__() > 0:
-            try:
-                if len(str(tst_[0]['positive'])) > 0:
-                    pos = + int(tst_[0]['positive'])
-                if len(str(tst_[0]['negative'])) > 0:
-                    neg = + int(tst_[0]['negative'])
-                if len(str(tst_[0]['unconfirmed'])) > 0:
-                    unc = + int(tst_[0]['unconfirmed'])
-                if len(str(tst_[0]['totaltested'])) > 0:
-                    tt = + int(tst_[0]['totaltested'])
-                if len(str(tst_[0]['totalpeoplecurrentlyinquarantine'])) > 0:
-                    c_q = + int(tst_[0]['totalpeoplecurrentlyinquarantine'])
-                if len(str(tst_[0]['totalpeoplereleasedfromquarantine'])) > 0:
-                    r_q = + int(tst_[0]['totalpeoplereleasedfromquarantine'])
-                if len(str(tst_[0]['testsperpositivecase'])) > 0:
-                    t_per_pos = + int(tst_[0]['testsperpositivecase'])
-            except:
-                pass
+        tst_ = test_locator(t,name, today)
+
+        try:
+            if len(str(tst_[0]['positive'])) > 0:
+                pos = pos + int(tst_[0]['positive'])
+            if len(str(tst_[0]['negative'])) > 0:
+                neg = neg + int(tst_[0]['negative'])
+            if len(str(tst_[0]['unconfirmed'])) > 0:
+                unc = unc + int(tst_[0]['unconfirmed'])
+            if len(str(tst_[0]['totaltested'])) > 0:
+                tt = tt + int(tst_[0]['totaltested'])
+            if len(str(tst_[0]['totalpeoplecurrentlyinquarantine'])) > 0:
+                c_q = c_q + int(tst_[0]['totalpeoplecurrentlyinquarantine'])
+            if len(str(tst_[0]['totalpeoplereleasedfromquarantine'])) > 0:
+                r_q = r_q + int(tst_[0]['totalpeoplereleasedfromquarantine'])
+            if len(str(tst_[0]['testsperpositivecase'])) > 0:
+                t_per_pos = t_per_pos + int(tst_[0]['testsperpositivecase'])
+        except:
+            pass
 
     tests_all['positive'] = pos
     tests_all['negative'] = neg
@@ -134,8 +156,11 @@ def get_tests(test_data, state_names, state):
 
     tests = {'positive': 0, 'negative': 0, 'unconfirmed': 0, 'total_tested': 0,
              'currently_in_quarantine': 0, 'released_from_quarantine': 0,
-             'tests_per_positive_case': 0}
-    tst_results = [k for k in t if k['state'] == state and k['updatedon'] == y_day.strftime('%d/%m/%Y')]
+             'tests_per_positive_case': 0, 'date': ''}
+
+    #tst_results = [k for k in t if k['state'] == state and k['updatedon'] == y_day.strftime('%d/%m/%Y')]
+    tst_results = test_locator( t,state, today)
+
     # print('result')
     # print(tst_results)
     neg = 0
@@ -170,11 +195,12 @@ def get_tests(test_data, state_names, state):
     tests['currently_in_quarantine'] = c_q
     tests['released_from_quarantine'] = r_q
     tests['tests_per_positive_case'] = t_per_pos
+    tests['date'] = tst_results[0]['updatedon']
 
     return tests, tests_all
 
 
-def latest(state, t_data=None):
+def latest(state, t_data=[]):
     today = date.today()
     y_day = today - timedelta(days=1)
     state_dict = {'Andaman and Nicobar Islands': 'AN', 'Andhra Pradesh': 'AP',

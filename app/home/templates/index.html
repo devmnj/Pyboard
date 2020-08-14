@@ -272,8 +272,8 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Test
-                            <small> Results </small>
+                        <h2>Tests
+                            <small> {{ tests['date'] }} </small>
                         </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -374,9 +374,7 @@
                             <td><strong> Tests</strong></td>
                             <td>{{ "%.2f"|format(tests['total_tested']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['total_tested']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
                         <tr>
@@ -385,9 +383,6 @@
                             <td><strong> Positive</strong></td>
                             <td>{{ "%.2f"|format(tests['positive']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['positive']) }}</td>
-                            <td>
-
-                            </td>
 
                         </tr>
 
@@ -397,9 +392,7 @@
                             <td><strong> Negative</strong></td>
                             <td>{{ "%.2f"|format(tests['negative']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['negative']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
                         <tr>
@@ -408,9 +401,7 @@
                             <td><strong> Quaratine count</strong></td>
                             <td>{{ "%.2f"|format(tests['currently_in_quarantine']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['currently_in_quarantine']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
                         <tr>
@@ -419,9 +410,7 @@
                             <td><strong> Unconfirmed</strong></td>
                             <td>{{ "%.2f"|format(tests['unconfirmed']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['unconfirmed']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
 
@@ -431,9 +420,7 @@
                             <td><strong> Released from Q.tine</strong></td>
                             <td>{{ "%.2f"|format(tests['released_from_quarantine']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['released_from_quarantine']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
                         <tr>
@@ -442,9 +429,7 @@
                             <td><strong> Test Per Positive Cases</strong></td>
                             <td>{{ "%.2f"|format(tests['tests_per_positive_case']) }}</td>
                             <td>{{ "%.2f"|format(tests_all['tests_per_positive_case']) }}</td>
-                            <td>
 
-                            </td>
 
                         </tr>
                         <tr>
