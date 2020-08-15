@@ -18,6 +18,7 @@ clikit==0.4.3
 colorama==0.4.3
 configparser==5.0.0
 crayons==0.3.1
+gunicorn
 decorator==4.4.2
 defusedxml==0.6.0
 docutils==0.15.2
