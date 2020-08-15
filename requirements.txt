@@ -2,7 +2,7 @@ blueprint==3.4.2
 click==7.1.2
 Flask==1.1.2
 gunicorn==20.0.4
-python3-tk
+python-tk
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
