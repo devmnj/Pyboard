@@ -84,8 +84,8 @@ def all_india(j_data=None, state_names=[]):
             dt = dt + d1
             rt = rt + r
     all_ = dict({"active": at, "confirmed": ct, "recovered": rt, "deceased": dt})
-    print('All India')
-    print(all_)
+    # print('All India')
+    # print(all_)
     return all_
 
 
@@ -161,9 +161,6 @@ def get_tests(test_data, state_names, state):
 
     #tst_results = [k for k in t if k['state'] == state and k['updatedon'] == y_day.strftime('%d/%m/%Y')]
     tst_results = test_locator( t,state, today)
-
-    # print('result')
-    # print(tst_results)
     neg = 0
     pos = 0
     unc = 0
