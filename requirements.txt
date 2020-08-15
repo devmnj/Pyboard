@@ -91,6 +91,7 @@ streamlit==0.62.0
 terminado==0.8.3
 testpath==0.4.4
 tk==0.1.0
+python-tk
 toml==0.10.1
 tomlkit==0.5.11
 toolz==0.10.0
